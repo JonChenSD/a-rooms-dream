@@ -1,0 +1,605 @@
+
+
+*
+{
+    margin: 0;
+    padding: 0;
+}
+
+
+body
+{
+    background-color: #ffffff;
+    
+    overflow: hidden;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    
+}
+html {
+  height: -webkit-fill-available;
+}
+p{
+  font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    /* border: 1px solid black; */
+    
+}
+hr{
+  height:1.5px;
+  border-width:0;
+  color:rgb(214, 214, 214);
+  background-color:rgb(214, 214, 214)
+}
+
+.poemText{
+  position: absolute;
+  /* transform: rotate(-90deg); */
+  top:30%;
+  left:30%;
+  font-family:'Times New Roman', Times, serif;
+  text-align: justify;
+  line-height: 200%;
+  font-size: 2.3vw;
+  width: 10%;
+}
+
+h1
+{
+  font-family: 'Volkhov', serif;
+  font-weight: 500;
+  font-size: 16pt;
+  padding-bottom: 4px;
+}
+
+
+button {
+  touch-action: manipulation;
+    font-family: 'Volkhov', serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 12pt;
+    -webkit-backdrop-filter: blur(10px), drop-shadow();
+    backdrop-filter: blur(10px);
+    margin: 0 auto;
+    z-index: 2;
+    color:  rgb(0, 0, 0);
+    outline: none;
+    border: black;
+    border-style: solid;
+    border-width: 1.5px;
+    padding: 12px;
+    opacity: 100%;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+
+
+    background: rgb(255, 255, 255);
+
+
+    }
+    button:hover {
+        cursor: pointer;
+    }
+    button:focus {
+        cursor: pointer;
+    }
+    
+
+
+.instructions{
+  pointer-events: none;
+   font-weight: 500;
+   position: fixed;
+   left: 0;
+   bottom: 120px;
+  z-index: 1;
+  text-align: center;
+ width: 100%;
+ 
+  visibility: visible;
+    opacity: 100%;
+    transition: opacity 0.4s,visibility 0.4s,transform 1s, left .8s;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+  /* margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0; */
+
+}
+.instructionsP{
+  text-align: center;
+}
+#dragtoMove{
+  visibility: hidden;
+  opacity: 0%;
+}
+
+#moveCamera{
+    position: absolute;
+    visibility: visible;
+    opacity: 100%;
+    transition: opacity 0.2s,visibility 0.2s,transform 1s, left .8s;
+    left: 15px;
+    bottom: 15px;
+
+}
+#minusstroke{
+  stroke: #000000;
+}
+#plusstroke{
+  stroke: #000000;
+}
+
+#zoomminus{
+  margin: 0 auto;
+  line-height: 0;
+    border-style: solid;
+    border-width: 0px;
+    padding: 0;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+#zoomplus{
+  margin: 0 auto;
+  line-height: 0;
+    border-style: solid;
+    border-width: 0px;
+    padding: 0;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+#zoom{
+  margin: 0 auto;
+    z-index: 2;
+    color:  rgb(0, 0, 0);
+    outline: none;
+    border: black;
+    border-style: solid;
+    border-width: 1.5px;
+    padding: 12px;
+    opacity: 100%;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+
+
+    background: rgb(255, 255, 255);
+  line-height: 0;
+  padding:0;
+  position: absolute;
+  visibility: visible;
+  opacity: 100%;
+  transition: opacity 0.2s,visibility 0.2s,transform 1s, left .8s;
+  left: 15px;
+  bottom: 77px;
+
+}
+
+#writePoem{
+    position: absolute;
+    visibility: hidden;
+    opacity: 0%;
+    transition: 1s;
+    transition: opacity 0.2s,visibility 0.2s,transform .8s, right .8s;
+    right: 15px;   bottom: 15px;  
+}
+
+#addObject{
+  touch-action: manipulation;
+  font-family: 'Volkhov', serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 12pt;
+  -webkit-backdrop-filter: blur(10px), drop-shadow();
+  backdrop-filter: blur(10px);
+  margin: 0 auto;
+  z-index: 2;
+  color:  rgb(0, 0, 0);
+  outline: none;
+  border: black;
+  border-style: solid;
+  border-width: 1.5px;
+  padding: 12px;
+  opacity: 100%;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+     -moz-user-select: none; /* Old versions of Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+          user-select: none; /* Non-prefixed version, currently
+                                supported by Chrome, Edge, Opera and Firefox */
+
+
+  background: rgb(255, 255, 255);
+
+
+ padding: 0;
+  text-align: left;
+    position: absolute;
+    visibility: hidden;
+    opacity: 0%;
+    transition: opacity 0.2s,visibility 0.2s;
+width:140px;
+    left:15px;
+  top:15px;
+  /* transition: width 0.2s ease-out; */
+  
+}
+#addObjectButton{
+  touch-action: manipulation;
+  cursor: pointer;
+  padding: 12px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+.addObjectObjects{
+  touch-action: manipulation;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  padding-top: 12px;
+}
+.addObjectObjects:hover{
+  text-decoration: underline;
+  font-style: italic;
+}
+.addObjectObjects:last-child{
+  padding-bottom: 15px;
+}
+
+#addObjectContent{
+  padding-left: 15px;
+  padding-right: 15px;
+  vertical-align: bottom;
+  max-height: 0;
+  
+  overflow: hidden;
+  /* transition: max-height .5s ease-in; */
+}
+.deleteSVG{
+  stroke:#000000;
+}
+#delete{
+  margin: 0 auto;
+  visibility: hidden;
+    opacity: 0%;
+  z-index: 2;
+  padding: 1.25px;
+  line-height: 0;
+  position: absolute;
+  
+  transition: opacity 0.2s,visibility 0.2s;
+
+  right:15px;
+  bottom:15px;
+
+}
+
+#rotate{
+  margin: 0 auto;
+  visibility: hidden;
+    opacity: 0%;
+  z-index: 2;
+  padding: 1.25px;
+  line-height: 0;
+  position: absolute;
+  
+  transition: opacity 0.2s,visibility 0.2s;
+
+  right:15px;
+  bottom:77.5px;
+
+}
+
+#about{
+
+    font-weight: 400;
+    font-size: 14pt;
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    right: 15px;
+    top:15px;
+}
+#about:active{
+    background:
+    #ffffff;
+    outline: 3px solid, black;
+    /* width: calc(100% - (45px + 110px));
+    height: calc(100% - (45px + 40px)); */
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background-color: #dadada;
+ 
+}
+.mainPage{
+  position: relative;
+  margin: auto;
+  padding: 30px;
+  
+  background: #ffffff;
+  box-sizing: border-box;
+  
+ 
+  overflow-y: overlay;
+  max-width: 580px;
+
+  height: 100vh; /* Fallback for browsers that do not support Custom Properties */
+  height: calc(var(--vh, 1vh) * 100); 
+  
+    /* display: flex;
+    align-items: end;
+    justify-content: center; */
+}
+#outline{
+  border: #DCDCDC;
+  border-style: solid;
+  border-width: 1.5px;
+  padding: 7.5px;
+  width: 100%;
+  height: 100%;
+}
+
+#paper{
+  border: #DCDCDC;
+  border-style: solid;
+  border-width: 1.5px;
+  width: 100%;
+  max-height: 700px;
+  margin-bottom: 80px;
+  padding-top: 30%;
+  padding-bottom: 100%;
+  background-color: white;
+  filter: drop-shadow(0 0 0rem rgb(255, 255, 255));
+  
+  
+  /* overflow: auto; */
+}
+
+.couch{
+
+    position: absolute;
+    transform: rotate(-90deg);
+    width: 30%;
+    top:30%;
+    left:30%;
+}
+
+.plant{
+    text-align: justify;
+    text-justify: inter-word;
+
+    position: absolute;
+    /* transform: rotate(-90deg); */
+    top:30%;
+    left:30%;
+}
+
+.chair{
+
+  position: absolute;
+  /* transform: rotate(-90deg); */
+  top:30%;
+  left:30%;
+}
+
+.table{
+
+  position: absolute;
+  /* transform: rotate(-90deg); */
+  top:30%;
+  left:30%;
+  width:10%
+}
+#cssGradient{
+  position: absolute;
+    left: 0;
+    top: 0;
+    background: linear-gradient(#1F2441,#343A5E, #B5717D);
+    width: 100%;
+    height: 100%;
+    transition: opacity 5s,visibility 0.4s,transform 1s, left .4s;
+}
+#cssCanvas{
+  position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 90%;
+    background: linear-gradient(#a1c8e7,#b7d6f0,#ecd9c0);
+    width: 100%;
+    height: 100%;
+    transition: opacity 8s,visibility 0.4s,transform 1s, left .4s;
+}
+canvas{
+  /* background: linear-gradient(#a1c8e7,#ecd9c0); */
+  /* background-image: linear-gradient(#1F2441,#343A5E, #B5717D); */
+  /* background-image: linear-gradient(#a1c8e7,#ecd9c0, #f7a955); */
+  /* background-image: linear-gradient(#1F2441,#343A5E, #B5717D); */
+    z-index: 0;
+    transition: opacity 5s,visibility 0.4s,transform 1s, left .4s;
+    
+    /* background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_Homepage.svg/1200px-Google_Homepage.svg.png');
+     */
+    
+}
+
+
+#striped{
+    background-color: #f0f0f0;
+    background: repeating-linear-gradient(
+  45deg,
+  #f0f0f0,
+  #f0f0f0 18px,
+  #ff0000 10px,
+  #ff0000 20px);
+}
+
+.webgl
+{
+    transition: left .4;
+    position: absolute;
+    top: 0;
+    left: 0;
+    outline: none;
+}
+
+#centerImage {
+  display: block;
+  margin-top: 8px;
+  margin-left: auto;
+  
+}
+#aboutModal {
+    opacity:0%;
+    display: none; /* Hidden by default */
+    position: fixed;
+  left: 0;
+ 
+  width: 100%;
+  height: 100%;
+    z-index: 3; /* Sit on top */
+    left: 0;
+   
+    overflow: auto; /* Enable scroll if needed */
+    -webkit-animation-name: fadeIn; /* Fade in the background */
+    -webkit-animation-duration: 0.2s;
+    animation-name: fadeIn;
+    animation-duration: 0.2s
+    
+  }
+  
+  /* Modal Content/Box */
+  .aboutModal-content {
+    position: absolute;
+    background-color: #ffffff;
+    top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+    padding: 20px;
+    border: 1.5px solid rgb(0, 0, 0);
+     
+    /* padding: 20px; */
+    
+    width: 408px; /* Could be more or less, depending on screen size */
+  }
+  .aboutModal-inside {
+    background-color: #ffffff;
+    position: relative;
+    left: -2px;
+    /*margin: 450px auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1.5px solid rgb(0, 0, 0);
+    width: calc(100% - 40px); /* Could be more or less, depending on screen size */
+    height: 100%;
+  }
+  /* The Close Button */
+  .close {
+    color: #aaa;
+    position: relative;
+    top: -10px;
+    right: -5px;
+    float: right;
+    font-weight: 400;
+    font-size: 26px;
+    
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  @media only screen and (min-width: 580px) {
+   .poemText{
+     font-size: 13.34px;
+   }
+
+  
+    
+  }
+
+  @media only screen and (max-width: 600px) {
+    
+    #aboutModal {
+      opacity:0%;
+    display: none; /* Hidden by default */
+    position: fixed;
+  left: 0;
+ 
+  width: 100%;
+  height: 100%;
+    z-index: 3; /* Sit on top */
+    left: 0;
+   
+    overflow: auto; /* Enable scroll if needed */
+    -webkit-animation-name: fadeIn; /* Fade in the background */
+    -webkit-animation-duration: 0.2s;
+    animation-name: fadeIn;
+    animation-duration: 0.2s
+      
+    }
+
+    .aboutModal-content {
+     
+        position: absolute;
+        background-color: #ffffff;
+        top: 50%;
+      left: 50%;
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+        padding: 18.5px;
+        border: 1.5px solid rgb(0, 0, 0);
+        width: calc(100% - 70px);
+      }
+      .aboutModal-inside {
+        background-color: #ffffff;
+        position: relative;
+        left: -2px;
+        margin: 450px auto; /* 15% from the top and centered */
+        padding: 20px;
+        border: 1.5px solid rgb(0, 0, 0);
+        width: 100%; /* Could be more or less, depending on screen size */
+        
+      }
+  }
+
+  
+  @-webkit-keyframes fadeIn {
+    from {opacity: 0} 
+    to {opacity: 1}
+  }
+  
+  @keyframes fadeIn {
+    from {opacity: 0} 
+    to {opacity: 1}
+  }
