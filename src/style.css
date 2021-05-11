@@ -9,7 +9,7 @@
 
 body
 {
-    background-color: #ffffff;
+    background-color: #f8f8f8;
     
     overflow: hidden;
     min-height: 100vh;
@@ -36,13 +36,16 @@ hr{
 .poemText{
   position: absolute;
   /* transform: rotate(-90deg); */
-  top:30%;
-  left:30%;
+  top:1px;
+  left:1px;
+  top: 100%; /* Fallback for browsers that do not support Custom Properties */
+  top: calc(var(--vhbox, 1%) * 100); 
   font-family:'Times New Roman', Times, serif;
   text-align: justify;
   line-height: 200%;
   font-size: 2.3vw;
   width: 10%;
+  
 }
 
 h1
@@ -344,7 +347,7 @@ width:140px;
   margin: auto;
   padding: 30px;
   
-  background: #ffffff;
+  background: #f8f8f8;
   box-sizing: border-box;
   
  
@@ -367,7 +370,7 @@ width:140px;
   height: 100%;
 }
 
-#paper{
+.paper{
   border: #DCDCDC;
   border-style: solid;
   border-width: 1.5px;

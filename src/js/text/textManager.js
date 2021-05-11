@@ -6,6 +6,20 @@ let plantTexts = ['sinking lucid space']
 
 let poemTexts = []
 let objectNumbers
+const paper = document.getElementById("paper")
+let vhpaper = paper.offsetHeight * 0.01
+let vwpaper = paper.offsetWidth * 0.01
+console.log(paper)
+
+let widthiOSadd = 0
+
+var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+if (isIOS) {
+  console.log('This is a IOS device');
+  widthiOSadd = 30
+} else {
+  console.log('This is Not a IOS device');
+}
 
 class PoemText{
     
@@ -26,7 +40,7 @@ class PoemText{
         
     }
     UpdatePoemTextPosition(name, x, z, yRotation, number) {
-        if(name == 'couch' || name == 'plant' || name == 'chair' || name == 'table' || name == 'banana' || name == 'bed' || name == 'laptop')
+        if(name == 'couch' || name == 'plant' || name == 'chair' || name == 'table' || name == 'banana' || name == 'bed' || name == 'laptop' || name == 'jonbox')
         {
             //the value from the mesh to match to the div object value
             let value = number
@@ -39,6 +53,7 @@ class PoemText{
             let cssYRotation = yRotation * 57.2958
             let cssleft = (x + 4)/ 8
             let csstop = (z + 6)/ 12
+            
            console.log('y rotation',cssYRotation)
             for(var i = 0; i < objects.length; i++)
             {
@@ -50,8 +65,9 @@ class PoemText{
                     //console.log (cssleft, csstop)
                     const rotation = 'rotate(' + String(Math.round(cssYRotation)) + '%)'
                     console.log("rotation", rotation)
-                    object.style.left = String(Math.round((cssleft * 90) / 2) * 2) + '%'
-                    object.style.top = String(Math.round((csstop * 90) / 2) * 2) + '%'
+                    console.log("transformation", String(Math.round((cssleft * 90) / 2) * 2 * vwpaper))
+                    object.style.left = String(Math.round((cssleft * 90) / 2) * 2 * vwpaper + widthiOSadd) + "px"
+                    object.style.top = String(Math.round((csstop * 70) / 2) * 2 * vhpaper) + "px"
                     object.style.transform = "rotate(" + String(Math.round(cssYRotation)) + "deg)"
                     break
                 }
@@ -131,12 +147,13 @@ function getObjectNumbers(numbers){
 function updateTextPosition(name, x , z, yRotation, number){
     console.log('the object name', name, number)
     console.log(poemTexts)
+    const lowercase = name.toLowerCase()
     for(let i = 0 ; i < poemTexts.length; i++){
         poemTexts[i].getObjectNumber()
         //console.log('couch start', poemTexts[i])
-        if(poemTexts[i].getTypeOfObject() == name && poemTexts[i].getObjectNumber() == number){
+        if(poemTexts[i].getTypeOfObject() == lowercase && poemTexts[i].getObjectNumber() == number){
             console.log('couch hit')
-            poemTexts[i].UpdatePoemTextPosition(name, x, z, yRotation, number)
+            poemTexts[i].UpdatePoemTextPosition(lowercase, x, z, yRotation, number)
             break
         }
     }

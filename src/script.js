@@ -36,11 +36,16 @@ let selectedObjects = [];
 const canvas = document.querySelector('canvas.webgl')
 const cssCanvas = document.getElementById("cssCanvas")
 const cssGradient = document.getElementById("cssGradient")
+const paper = document.getElementById("paper")
 
 // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
 let vh = window.innerHeight * 0.01;
+let vhpaper = paper.offsetHeight * 0.01
+let vwpaper = paper.offsetWidth * 0.01
 // Then we set the value in the --vh custom property to the root of the document
 document.documentElement.style.setProperty('--vh', `${vh}px`);
+document.documentElement.style.setProperty('--vhbox', `${vhpaper}px`);
+document.documentElement.style.setProperty('--vwbox', `${vwpaper}px`);
 
 // Button
 const editRoom = document.getElementById("moveCamera")
@@ -51,6 +56,7 @@ const deleteButton = document.getElementById("delete")
 const about = document.getElementById("about")
 const webglHTML = document.getElementById("about")
     //zoom
+const zoom = document.getElementById("zoom")
 const zoomplus = document.getElementById("zoomplus")
 const zoomminus = document.getElementById("zoomminus")
 const plusstrokes = document.getElementsByClassName("plusstroke")
@@ -76,6 +82,7 @@ const objectNumbers = []
 getObjectNumbers(objectNumbers)
 attatchObjectNumbers(objectNumbers)
 const boundaryObjects = []
+let objectbeingsaton
 
 const couchhtml = document.getElementById("couch")
 const planthtml = document.getElementById("plant")
@@ -757,15 +764,16 @@ function onClick( event ) {
         if ( group.children.includes( object ) === true ) {
 
             object.material.emissive.set( 0x000000 );
-            
+            if(event.object.name == "jonBox"){
+                changeJonEmissions(0x000000)
+            }
             //scene.attach( object );
 
         } else {
 
             
             outlinePass.selectedObjects = selectedObjects
-            console.log("outline pass", outlinePass)
-            console.log("object after outlinepass", object)
+            
             //group.attach( object );
 
         }
@@ -957,6 +965,13 @@ deleteButton.onclick = function() {
 
     if(selectedObjects[0].name != "jonBox" && selectedObjects.length > 0){
         
+        if(selectedObjects[0] == objectSatOn)
+        {
+            jonSit.visible = false
+            jonSleep.visible = false
+            jon.visible = true
+            console.log('deleted the seatable object')
+        }
         const objectName = selectedObjects[0].name
         const objectNumber = selectedObjects[0].userData.number
         for(var i = 0; i < objects.length; i++){
@@ -999,6 +1014,9 @@ rotate.onclick = function() {
             
             console.log('set emissive')
                 selectedObjects[0].material.emissive.set(0xFF0000)
+                if(selectedObjects[0].name == "jonBox"){
+                    changeJonEmissions(0xff0000)
+                }
             }
             else
             {
@@ -1010,6 +1028,9 @@ rotate.onclick = function() {
                 // console.log(checkObjectsCollisions(objects[3]))
                 console.log('reset')
                 selectedObjects[0].material.emissive.set(0x7C7C7C)
+                if(selectedObjects[0].name == "jonBox"){
+                    changeJonEmissions(0x7C7C7C)
+                }
             }
                 
         }
@@ -1257,17 +1278,37 @@ window.onclick = function(event) {
  * 
  */
  writePoem.onclick = function(){moveCanvas()}
+ const poemBlock = document.getElementById("paper")
+ const mainPage = document.getElementsByClassName("mainPage")
+ let lastBlock
+let firstPoemMade = false
  
+function insertAfter(newNode, existingNode) {
+    existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
+}
+
  function moveCanvas(){
      if(writePoemState == 1)
      {
-         
+        
+    //     if(firstPoemMade == true){
+    //         insertAfter(lastBlock, poemBlock)
+            
+    //     }
+       
+    //    firstPoemMade = true
+    //    lastBlock = poemBlock.cloneNode(true)
         writePoem.innerText = 'Back to Room'
+
+        dragtoRotate.style.opacity = '0%'
+        dragtoRotate.style.visibility = 'false'
+        dragtoMove.style.opacity = '0%'
+        dragtoMove.style.visibility = 'false'
         //moveHTMLElements()
         // editRoom.style.visibility = 'hidden'
         // editRoom.style.opacity = '0%'
         editRoom.style.left = 'calc(-100% + 15px)'
-
+        zoom.style.left = 'calc(-100% + 15px)'
          //writePoem.style.visibility = "hidden"
         writePoem.style.right = 'calc(100% - (15px + 125px))'
         writePoem.style.transform = '(100%, 0)'
@@ -1288,7 +1329,7 @@ window.onclick = function(event) {
         // editRoom.style.visibility = 'visible'
         // editRoom.style.opacity = '100%'
         editRoom.style.left = '15px'
-
+        zoom.style.left = '15px'
          //writePoem.style.visibility = "hidden"
         writePoem.style.right = '15px'
         writePoem.style.transform = '(100%, 0)'
@@ -1432,6 +1473,9 @@ function addSelectedObject( object ) {
             
         // }
     selectedObjects[0].material.emissive.set( 0x000000 )
+    if(selectedObjects[0].name == "jonBox"){
+        changeJonEmissions(0x000000)
+    }
     selectedObjects = [];
     selectedObjects.push( object );
     }
@@ -1442,6 +1486,10 @@ function clearSelectedObjects() {
    
     if(selectedObjects.length>0){
         selectedObjects[0].material.emissive.set( 0x000000 )
+        
+        if(selectedObjects[0].name == "jonBox"){
+            changeJonEmissions(0x000000)
+        }
     selectedObjects = [];
     }
     
@@ -1490,6 +1538,24 @@ function checkIntersection() {
 let jonPositionx = null
 let jonPositiony = null
 let jonPositionz = null
+
+function changeJonEmissions (color){
+
+    jon.children[0].material.emissive.set(color)
+    for(var i = 0; i < jon.children[0].children.length; i++){
+        jon.children[0].children[i].material.emissive.set(color)
+    }
+    
+    jonSleep.children[0].material.emissive.set(color)
+    for(var i = 0; i < jonSleep.children[0].children.length; i++){
+        jonSleep.children[0].children[i].material.emissive.set(color)
+    }
+    jonSit.children[0].material.emissive.set(color)
+    for(var i = 0; i < jonSit.children[0].children.length; i++){
+        jonSit.children[0].children[i].material.emissive.set(color)
+    }
+    
+}
 
 function checkObjectforSitting ( mesh ){
 
@@ -1548,6 +1614,11 @@ let tempPositionx = null
 let tempPositiony = null
 let tempPositionz = null
 
+let startPositionx = null
+let startPositiony = null
+let startPositionz = null
+
+let selected = false
 let objectSatOn
 
 const dragControls = new DragControls( [ ... objects ], camera, renderer.domElement );
@@ -1556,6 +1627,9 @@ dragControls.addEventListener( 'drag', render );
 dragControls.addEventListener( 'dragstart', function ( event ){
     addSelectedObject(event.object)
     draggedonce = true
+    startPositionx = event.object.position.x
+    startPositiony = event.object.position.y
+    startPositionz = event.object.position.z
     tempPositionx = event.object.position.x
     tempPositiony = event.object.position.y
     tempPositionz = event.object.position.z
@@ -1613,7 +1687,11 @@ dragControls.addEventListener('drag', (event) => {
            
        }
        else{
+           console.log("emissive set ")
             event.object.material.emissive.set(0xFF0000)
+            if(event.object.name == "jonBox"){
+                changeJonEmissions(0xFF0000)
+            }
        }
         
     }
@@ -1631,6 +1709,9 @@ dragControls.addEventListener('drag', (event) => {
         tempPositionz = event.object.position.z
     
         //tempPosition = event.object.position
+        if(event.object.name == "jonBox"){
+            changeJonEmissions(0x7C7C7C)
+        }
         event.object.material.emissive.set( 0x7C7C7C )
     }
     
@@ -1650,13 +1731,37 @@ dragControls.addEventListener('drag', (event) => {
 dragControls.addEventListener('dragend', function( event ){
 
     //console.log('tempposition at drag end',tempPosition, '--- position of object', event.object.position)
-    console.log(tempPositionx, tempPositionz)
-    console.log(event.object.position.x,event.object.position.z)
+    
     dragtoMove.style.visibility = "hidden"
     dragtoMove.style.opacity = "0%"
     if(checkObjectforSitting(event.object) != null)
     {
        
+        if(event.object.position.x == startPositionx && event.object.position.y == startPositiony){
+            console.log('notmoved')
+            if(event.object == selectedObjects[0] && selected == true){
+                event.object.material.emissive.set(0x000000)
+                if(event.object.name == "jonBox"){
+                    changeJonEmissions(0x000000)
+                }
+                selected = false
+                selectedObjects = []
+            }
+            else{
+                selected = true
+                if(event.object.name == "jonBox"){
+                    changeJonEmissions(0x7C7C7C)
+                }
+                event.object.material.emissive.set( 0x7C7C7C );
+            }
+            
+
+        }
+        else{
+            if(event.object.name == "jonBox"){
+                changeJonEmissions(0x000000)
+            }
+        }
         jon.position.setX(jonPositionx)
         jon.position.setZ(jonPositionz)
         objects[0].position.setX(jonPositionx)
@@ -1670,19 +1775,45 @@ dragControls.addEventListener('dragend', function( event ){
     }
     else
     {
-        updateJonPosition()
+        console.log("check object positions", event.object.position.x, startPositionx)
+        if(event.object.position.x == startPositionx && event.object.position.y == startPositiony){
+            console.log('notmoved')
+            if(event.object == selectedObjects[0] && selected == true){
+                event.object.material.emissive.set(0x000000)
+                if(event.object.name == "jonBox"){
+                    changeJonEmissions(0x000000)
+                }
+                selected = false
+                selectedObjects = []
+            }
+            else{
+                selected = true
+                if(event.object.name == "jonBox"){
+                    changeJonEmissions(0x7C7C7C)
+                }
+                event.object.material.emissive.set( 0x7C7C7C );
+            }
+            
+
+        }
+        else if(event.object.position.x != startPositionx && event.object.position.y != startPositiony){
+            console.log('moved')
+            if(event.object.name == "jonBox"){
+                changeJonEmissions(0x000000)
+            }
+        }
         event.object.position.set(tempPositionx,tempPositiony,tempPositionz)
+        updateJonPosition()
     }
    
     //event.object.position.set(0,7)
-    console.log('object at dragend', event.object)
+    //console.log('object at dragend', event.object)
     setBBoxtoObject( event.object )
     //console.log(event.object.geometry.boundingBox.intersectsBox(wall.geometry))
     //console.log(event.object.geometry.boundingBox)
     //console.log('objects in objects array', objects)
     
-    event.object.material.emissive.set( 0x7C7C7C );
-
+    
     //Updates html object location
     
     updateTextPosition(event.object.name, event.object.position.x, event.object.position.z, event.object.rotation.y, event.object.userData.number)
